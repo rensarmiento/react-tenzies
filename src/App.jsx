@@ -12,6 +12,10 @@ export default function App() {
   const [tenzies, setTenzies] = useState(false)
   
   useEffect(() => {
+    /** controls watch over when the game is over 
+     *  all dice are same value and all dice are held
+     *  if true -> set change of 'tenzies' state to true
+     */
       const allHeld = dice.every(die => die.isHeld)
       const firstValue = dice[0].value
       const allSameValue = dice.every(die => die.value === firstValue)
@@ -21,6 +25,9 @@ export default function App() {
   }, [dice])
 
   function generateNewDie() {
+      /** helper function to create new single dice object
+       * 
+       */
       return {
           value: Math.ceil(Math.random() * 6),
           isHeld: false,
@@ -29,6 +36,9 @@ export default function App() {
   }
   
   function allNewDice() {
+    /**
+     * Creates a new set of 10 dice
+     */
       const newDice = []
       for (let i = 0; i < 10; i++) {
           newDice.push(generateNewDie())
@@ -37,8 +47,14 @@ export default function App() {
   }
   
   function rollDice() {
+    /**
+     * rolls all dice where die.isHeld === false
+     * Also checks for game completion
+     * 
+     */
       if(!tenzies) {
           setDice(oldDice => oldDice.map(die => {
+            // create new dice where die.isHeld === false, keep die if die.isHeld === true
               return die.isHeld ? 
                   die :
                   generateNewDie()
@@ -50,6 +66,11 @@ export default function App() {
   }
   
   function holdDice(id) {
+    /**
+     * change the element of the dice array where the id matches
+     * if element matches to the id, return new die with changed die.isHeld
+     * if element does NOT match, return the same die
+     */
       setDice(oldDice => oldDice.map(die => {
           return die.id === id ? 
               {...die, isHeld: !die.isHeld} :
@@ -58,6 +79,7 @@ export default function App() {
   }
   
   const diceElements = dice.map(die => (
+      // creates the dice elements to populate the page
       <Die 
           key={die.id} 
           value={die.value} 
