@@ -50,6 +50,7 @@ main {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  /* Add changes to die-face here*/
 }
 
 .die-num {
